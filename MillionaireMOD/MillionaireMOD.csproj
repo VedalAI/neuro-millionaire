@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net472</TargetFramework>
+        <LangVersion>preview</LangVersion>
+
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <NoWarn>$(NoWarn);CS0436</NoWarn>
+
+        <Configurations>Debug;Release</Configurations>
+        <Platforms>Millionaire</Platforms>
+
+        <DebugType>embedded</DebugType>
+        <DebugSymbols>true</DebugSymbols>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="BepInEx.Unity.Mono" Version="6.0.0-be.674" />
+        <PackageReference Include="UnityEngine.Modules" Version="2021.1.14" />
+
+        <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.1" PrivateAssets="all" />
+        <PackageReference Include="PolySharp" Version="1.13.2" PrivateAssets="all" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Reference Include="$(Millionaire)/WWTBAM_Data/Managed/*" Publicize="true" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <EmbeddedResource Include="Resources/**" />
+        <EmbeddedResource Remove="Resources/**/*.cs" />
+    </ItemGroup>
+</Project>
