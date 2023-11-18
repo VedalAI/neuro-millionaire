@@ -1,13 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.IO;
+using System.Reflection.Emit;
+using HarmonyLib;
 using Newtonsoft.Json;
 using WebSocketSharp;
 
 namespace MillionaireMOD.Communication;
 
+[HarmonyPatch]
 public static class WebSocketConnection
 {
     private static WebSocket _socket;
+
+    private static string _clientId = "";
+    private static string _clientSecret = "";
 
     public static event Action<string> OnAnswerReceived;
     public static event Action<string> OnLifelineReceived;
@@ -17,6 +25,24 @@ public static class WebSocketConnection
     public static void Initialize()
     {
         LOGGER.LogWarning("Initializing WebSocket connection");
+
+        string path = Path.GetFullPath("socket-auth.txt");
+        if (!File.Exists(path))
+        {
+            LOGGER.LogWarning($"File {path} is missing");
+        }
+
+        try
+        {
+            string[] splits = File.ReadAllLines("socket-auth.txt");
+            _clientId = splits[0];
+            _clientSecret = splits[1];
+        }
+        catch (Exception e)
+        {
+            LOGGER.LogError(e);
+        }
+
         _socket = new WebSocket("ws://localhost:8000");
         _socket.OnOpen += (_, _) => _socket.Send(new WSMessage("client"));
         _socket.OnMessage += (_, msg) => ReceiveMessage(msg);
@@ -61,6 +87,31 @@ public static class WebSocketConnection
         {
             LOGGER.LogError("Received invalid message");
             LOGGER.LogError(e);
+        }
+    }
+
+    [HarmonyPatch(typeof(WebSocket), nameof(WebSocket.createHandshakeRequest))]
+    [HarmonyTranspiler]
+    private static IEnumerable<CodeInstruction> AddCustomHeaders(IEnumerable<CodeInstruction> instructions)
+    {
+        CodeMatcher matcher = new(instructions);
+        matcher.Start();
+
+        matcher.SearchForward(c => c.Is(OpCodes.Ldstr, "Sec-WebSocket-Version"));
+        matcher.Advance(4);
+
+        matcher.InsertAndAdvance
+        (
+            new CodeInstruction(OpCodes.Ldloc_1), // headers
+            new CodeInstruction(OpCodes.Call, new Action<NameValueCollection>(addCustomHeaders).Method)
+        );
+
+        return matcher.InstructionEnumeration();
+
+        static void addCustomHeaders(NameValueCollection headers)
+        {
+            headers["CF-Access-Client-Id"] = _clientId;
+            headers["CF-Access-Client-Secret"] = _clientSecret;
         }
     }
 }
