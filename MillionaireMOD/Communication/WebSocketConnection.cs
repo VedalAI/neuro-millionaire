@@ -34,7 +34,7 @@ public static class WebSocketConnection
 
         try
         {
-            string[] splits = File.ReadAllLines("socket-auth.txt");
+            string[] splits = File.ReadAllLines(path);
             _clientId = splits[0];
             _clientSecret = splits[1];
         }
