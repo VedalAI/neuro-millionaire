@@ -1,16 +1,18 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Reflection.Emit;
 using HarmonyLib;
 using Newtonsoft.Json;
+using UnityEngine;
 using WebSocketSharp;
 
 namespace MillionaireMOD.Communication;
 
 [HarmonyPatch]
-public static class WebSocketConnection
+public class WebSocketConnection : MonoBehaviour
 {
     private static WebSocket _socket;
 
@@ -22,7 +24,12 @@ public static class WebSocketConnection
     public static event Action<int, int, int, int> OnAskTheAudienceResultsReceived;
     public static event Action<string> OnPhoneAFriendResultsReceived;
 
-    public static void Initialize()
+    private void Awake()
+    {
+        Initialize();
+    }
+
+    private void Initialize()
     {
         LOGGER.LogWarning("Initializing WebSocket connection");
 
@@ -43,9 +50,41 @@ public static class WebSocketConnection
             LOGGER.LogError(e);
         }
 
+        StartWS();
+    }
+
+    private IEnumerator Reconnect()
+    {
+        yield return new WaitForSeconds(3);
+        StartWS();
+    }
+
+    private void StartWS()
+    {
+        try
+        {
+            _socket?.Close();
+        }
+        catch
+        {
+            //ignored
+        }
+        
         _socket = new WebSocket("ws://localhost:8000");
         _socket.OnOpen += (_, _) => _socket.Send(new WSMessage("client"));
         _socket.OnMessage += (_, msg) => ReceiveMessage(msg);
+        _socket.OnError += (_, e) =>
+        {
+            LOGGER.LogError("Websocket connection has encountered an error!");
+            LOGGER.LogError(e.Message);
+            LOGGER.LogError(e.Exception);
+            StartCoroutine(Reconnect());
+        };
+        _socket.OnClose += (_, _) =>
+        {
+            LOGGER.LogError("Websocket connection has been closed!");
+            StartCoroutine(Reconnect());
+        };
         _socket.Connect();
     }
 

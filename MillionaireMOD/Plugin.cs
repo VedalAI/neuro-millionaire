@@ -22,7 +22,7 @@ public sealed class Plugin : BaseUnityPlugin
 
         Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly());
 
-        WebSocketConnection.Initialize();
+        gameObject.AddComponent<WebSocketConnection>();
         WebSocketConnection.OnAnswerReceived += ReceiveAnswer.AnswerQuestion;
         WebSocketConnection.OnLifelineReceived += ReceiveLifeline.UseLifeline;
         WebSocketConnection.OnAskTheAudienceResultsReceived += ReceiveAskTheAudienceResults.UpdateUI;
