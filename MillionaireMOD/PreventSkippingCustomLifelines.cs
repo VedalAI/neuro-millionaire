@@ -13,6 +13,7 @@ public static class PreventSkippingCustomLifelines
         {
             if (value == CanSkip) return;
 
+            // ReSharper disable once ObjectCreationAsStatement
             if (!value) new GameObject("DO NOT SKIP");
             else Object.Destroy(GameObject.Find("DO NOT SKIP"));
         }

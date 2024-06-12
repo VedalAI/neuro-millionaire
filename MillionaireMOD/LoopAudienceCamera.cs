@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using HarmonyLib;
+using UnityEngine;
 
 namespace MillionaireMOD;
 
@@ -9,14 +10,21 @@ public static class LoopAudienceCamera
 {
     public static bool CanContinue;
 
+    private static readonly int _next = Animator.StringToHash("Next");
+    private static readonly int _lifeline = Animator.StringToHash("Lifeline");
+    private static readonly int _lifelineChoice = Animator.StringToHash("LifelineChoice");
+    private static readonly int _answerPr = Animator.StringToHash("AnswerPr");
+    private static readonly int _answerCd = Animator.StringToHash("AnswerCd");
+    private static readonly int _answerBoth = Animator.StringToHash("AnswerBoth");
+
     // [HarmonyPatch(typeof(LifelineStep), nameof(LifelineStep.AskPublicRoutine))]
     // [HarmonyPrefix]
     public static bool PrefixPatch(LifelineStep __instance, out IEnumerator __result)
     {
-        __result = OurCoroutine();
+        __result = ourCoroutine();
         return false;
 
-        IEnumerator OurCoroutine()
+        IEnumerator ourCoroutine()
         {
             CanContinue = false;
             __instance.mJustEntered = true;
@@ -30,14 +38,14 @@ public static class LoopAudienceCamera
                 // AnimatorStateInfo info = CinemachineController.sInstance.mCinemachineAnimator.GetCurrentAnimatorStateInfo(0);
                 // info.m_Loop
 
-                CinemachineController.sInstance.mCinemachineAnimator.SetTrigger("Next");
+                CinemachineController.sInstance.mCinemachineAnimator.SetTrigger(_next);
                 yield return null;
-                CinemachineController.sInstance.mCinemachineAnimator.SetTrigger("Lifeline");
+                CinemachineController.sInstance.mCinemachineAnimator.SetTrigger(_lifeline);
                 yield return null;
-                CinemachineController.sInstance.mCinemachineAnimator.SetInteger("LifelineChoice", (int) UIController.eLifeline_Name.PUBLIC);
-                CinemachineController.sInstance.mCinemachineAnimator.ResetTrigger("AnswerPr");
-                CinemachineController.sInstance.mCinemachineAnimator.ResetTrigger("AnswerCd");
-                CinemachineController.sInstance.mCinemachineAnimator.ResetTrigger("AnswerBoth");
+                CinemachineController.sInstance.mCinemachineAnimator.SetInteger(_lifelineChoice, (int) UIController.eLifeline_Name.PUBLIC);
+                CinemachineController.sInstance.mCinemachineAnimator.ResetTrigger(_answerPr);
+                CinemachineController.sInstance.mCinemachineAnimator.ResetTrigger(_answerCd);
+                CinemachineController.sInstance.mCinemachineAnimator.ResetTrigger(_answerBoth);
                 yield return null;
                 yield return __instance.WaitEndOfTimeline("");
             }

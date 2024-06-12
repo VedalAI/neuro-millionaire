@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace MillionaireMOD.Communication;
+namespace MillionaireMOD.Communication.Incoming;
 
 public static class ReceiveAnswer
 {

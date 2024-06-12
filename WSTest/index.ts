@@ -1,4 +1,4 @@
-import { RawData, WebSocket, WebSocketServer } from "ws";
+import { WebSocket, WebSocketServer } from "ws";
 import "./app";
 
 const wss = new WebSocketServer({ port: 8000 });
@@ -8,7 +8,8 @@ let connections : WebSocket[] = [];
 wss.on("connection", function connection(ws) {
     ws.once("message", (data) => {
         const obj = JSON.parse(data.toString()) as Message;
-        if (obj.command == "client") {
+        console.log(obj);
+        if (obj.Command == "client") {
             console.log("Registered new client");
             connections.push(ws);
             ws.on("message", data => onMessageReceived(JSON.parse(data.toString()) as Message));
@@ -31,6 +32,6 @@ export function send(msg : Message) {
 }
 
 export type Message = {
-    command: string,
-    data?: {[key: string]:any}
+    Command: string,
+    Data?: {[key: string]:any}
 }

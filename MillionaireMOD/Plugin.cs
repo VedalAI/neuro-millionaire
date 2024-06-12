@@ -5,6 +5,7 @@ using BepInEx.Logging;
 using BepInEx.Unity.Mono;
 using HarmonyLib;
 using MillionaireMOD.Communication;
+using MillionaireMOD.Communication.Incoming;
 using MillionaireMOD.Resources;
 using UnityEngine;
 
@@ -13,7 +14,9 @@ namespace MillionaireMOD;
 [BepInPlugin("MillionaireMOD", "MillionaireMOD", "1.0.0")]
 public sealed class Plugin : BaseUnityPlugin
 {
+    // ReSharper disable once InconsistentNaming
     public static ManualLogSource LOGGER { get; private set; }
+    // ReSharper disable once InconsistentNaming
     public static AudioClip LONGER_AUDIENCE_CLIP { get; private set; }
 
     private void Awake()

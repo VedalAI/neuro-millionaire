@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using HarmonyLib;
 using MillionaireMOD.Communication;
+using MillionaireMOD.Communication.Outgoing;
 using UnityEngine;
 
 namespace MillionaireMOD;
@@ -16,12 +17,12 @@ public static class CustomCallAFriendBehaviour
     public static bool Prefix(ScenarioLibrary __instance, out float __result)
     {
         __instance.mCallOver = false;
-        __instance.mCallAFriendRoutine = __instance.StartCoroutine(Coroutine());
+        __instance.mCallAFriendRoutine = __instance.StartCoroutine(coroutine());
         __instance.mClipTimer = -1f;
         __result = 30;
         return false;
 
-        IEnumerator Coroutine()
+        IEnumerator coroutine()
         {
             UIController.sInstance.ShowCallAFriendClock();
             yield return new WaitForSeconds(0.2f);
@@ -29,7 +30,7 @@ public static class CustomCallAFriendBehaviour
 
             yield return new WaitUntil(() => UIController.sInstance.mCurrentRoutine == null || CallOver);
 
-            if (!CallOver) WebSocketConnection.Send(new WSMessage("millionaire/lifeline/phone_a_friend/request_end"));
+            if (!CallOver) WebSocketConnection.Send(new WsMessage("millionaire/lifeline/phone_a_friend/request_end"));
             UIController.sInstance.SetLifelineAnswer(string.IsNullOrWhiteSpace(CallAnswer) ? "?" : CallAnswer);
             CallOver = false;
             CallAnswer = null;

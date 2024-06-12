@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using HarmonyLib;
 
-namespace MillionaireMOD.Communication;
+namespace MillionaireMOD.Communication.Outgoing;
 
 [HarmonyPatch]
 internal static class SendGameLose
@@ -14,6 +14,6 @@ internal static class SendGameLose
         {
             {"won", false}
         };
-        WebSocketConnection.Send(new WSMessage("millionaire/finish", data));
+        WebSocketConnection.Send(new WsMessage("millionaire/finish", data));
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using HarmonyLib;
 
-namespace MillionaireMOD.Communication;
+namespace MillionaireMOD.Communication.Outgoing;
 
 [HarmonyPatch]
 internal static class SendAnswerCorrect
@@ -14,6 +14,6 @@ internal static class SendAnswerCorrect
         {
             // {"money_earned", __instance.mUIController.mBaseValues.GetPyramidValue(__instance.mUIController.mPyramidPalierIndex)}
         };
-        WebSocketConnection.Send(new WSMessage("millionaire/answer/correct", data));
+        WebSocketConnection.Send(new WsMessage("millionaire/answer/correct", data));
     }
 }

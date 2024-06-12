@@ -7,28 +7,44 @@ app.use(urlencoded({extended: false}));
 app.listen(1337);
 
 app.get("/answer", (req, res) => {
-    send({"command": "millionaire/answer", data: {"answer": req.body.answer}});
+    send({
+        Command: "millionaire/answer",
+        Data: {
+            answer: req.body.answer
+        }
+    });
     res.sendStatus(200);
 });
 
 app.get("/lifeline", (req, res) => {
-    send({command: "millionaire/lifeline", data: {"lifeline": req.body.lifeline}});
+    send({
+        Command: "millionaire/lifeline",
+        Data: {
+            lifeline: req.body.lifeline
+        }
+    });
     res.sendStatus(200);
 })
 
 app.get("/asktheaudience", (req, res) => {
-    send({command: "millionaire/lifeline/ask_the_audience/results", data: {
-        "percentageA": parseInt(req.body.a),
-        "percentageB": parseInt(req.body.b),
-        "percentageC": parseInt(req.body.c),
-        "percentageD": parseInt(req.body.d),
-    }});
+    send({
+        Command: "millionaire/lifeline/ask_the_audience/results",
+        Data: {
+            "percentageA": parseInt(req.body.a),
+            "percentageB": parseInt(req.body.b),
+            "percentageC": parseInt(req.body.c),
+            "percentageD": parseInt(req.body.d),
+        }
+    });
     res.sendStatus(200);
 });
 
 app.get("/phoneafriend", (req, res) => {
-    send({command: "millionaire/lifeline/phone_a_friend/results", data: {
-        "result": req.body.answer
-    }});
+    send({
+        Command: "millionaire/lifeline/phone_a_friend/results",
+        Data: {
+            "result": req.body.answer
+        }
+    });
     res.sendStatus(200);
 });

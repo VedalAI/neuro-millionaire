@@ -16,6 +16,7 @@ public class WebSocketConnection : MonoBehaviour
 {
     private static WebSocket _socket;
 
+    private static string _socketUrl = "";
     private static string _clientId = "";
     private static string _clientSecret = "";
 
@@ -42,36 +43,37 @@ public class WebSocketConnection : MonoBehaviour
         try
         {
             string[] splits = File.ReadAllLines(path);
-            _clientId = splits[0];
-            _clientSecret = splits[1];
+            _socketUrl = splits[0];
+            _clientId = splits[1];
+            _clientSecret = splits[2];
         }
         catch (Exception e)
         {
             LOGGER.LogError(e);
         }
 
-        StartWS();
+        StartWs();
     }
 
     private IEnumerator Reconnect()
     {
         yield return new WaitForSeconds(3);
-        StartWS();
+        StartWs();
     }
 
-    private void StartWS()
+    private void StartWs()
     {
         try
         {
-            _socket?.Close();
+            if (_socket?.ReadyState is WebSocketState.Open or WebSocketState.Connecting) _socket?.Close();
         }
         catch
         {
             //ignored
         }
-        
-        _socket = new WebSocket("ws://localhost:8000");
-        _socket.OnOpen += (_, _) => _socket.Send(new WSMessage("client"));
+
+        _socket = new WebSocket(_socketUrl);
+        _socket.OnOpen += (_, _) => _socket.Send(new WsMessage("client"));
         _socket.OnMessage += (_, msg) => ReceiveMessage(msg);
         _socket.OnError += (_, e) =>
         {
@@ -88,7 +90,7 @@ public class WebSocketConnection : MonoBehaviour
         _socket.Connect();
     }
 
-    public static void Send(WSMessage wsMessage)
+    public static void Send(WsMessage wsMessage)
     {
         _socket.Send(wsMessage);
     }
@@ -99,26 +101,26 @@ public class WebSocketConnection : MonoBehaviour
         {
             LOGGER.LogWarning("Received message " + msg.Data);
 
-            WSMessage wsMessage = JsonConvert.DeserializeObject<WSMessage>(msg.Data);
-            switch (wsMessage.command)
+            WsMessage wsMessage = JsonConvert.DeserializeObject<WsMessage>(msg.Data);
+            switch (wsMessage.Command)
             {
                 case "millionaire/answer":
-                    OnAnswerReceived?.Invoke(wsMessage.data["answer"].ToString());
+                    OnAnswerReceived?.Invoke(wsMessage.Data["answer"].ToString());
                     break;
 
                 case "millionaire/lifeline":
-                    OnLifelineReceived?.Invoke(wsMessage.data["lifeline"].ToString());
+                    OnLifelineReceived?.Invoke(wsMessage.Data["lifeline"].ToString());
                     break;
 
                 case "millionaire/lifeline/ask_the_audience/results":
                     OnAskTheAudienceResultsReceived?.Invoke(
-                        Convert.ToInt32(wsMessage.data["percentageA"]), Convert.ToInt32(wsMessage.data["percentageB"]),
-                        Convert.ToInt32(wsMessage.data["percentageC"]), Convert.ToInt32(wsMessage.data["percentageD"])
+                        Convert.ToInt32(wsMessage.Data["percentageA"]), Convert.ToInt32(wsMessage.Data["percentageB"]),
+                        Convert.ToInt32(wsMessage.Data["percentageC"]), Convert.ToInt32(wsMessage.Data["percentageD"])
                     );
                     break;
 
                 case "millionaire/lifeline/phone_a_friend/results":
-                    OnPhoneAFriendResultsReceived?.Invoke(wsMessage.data["result"].ToString());
+                    OnPhoneAFriendResultsReceived?.Invoke(wsMessage.Data["result"].ToString());
                     break;
             }
         }
@@ -156,14 +158,14 @@ public class WebSocketConnection : MonoBehaviour
 }
 
 
-public record WSMessage(string command, Dictionary<string, object> data = null)
+public record struct WsMessage(string Command, Dictionary<string, object> Data = null)
 {
     public override string ToString()
     {
         return JsonConvert.SerializeObject(this);
     }
 
-    public static implicit operator string(WSMessage wsMessage)
+    public static implicit operator string(WsMessage wsMessage)
     {
         return wsMessage.ToString();
     }

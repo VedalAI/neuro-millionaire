@@ -11,6 +11,7 @@ internal static class DisableCringeVoiceLines
 {
     [HarmonyPatch(typeof(ScenarioLibrary), nameof(ScenarioLibrary.PlayPresenterScenario))]
     [HarmonyPrefix]
+    // ReSharper disable once InconsistentNaming
     private static bool PresenterLines(ScenarioLibrary.ePresenterAction _prAction)
     {
         if (_prAction is ScenarioLibrary.ePresenterAction.vous_avez_choisi or ScenarioLibrary.ePresenterAction.dernier_mot) return false;
@@ -19,10 +20,10 @@ internal static class DisableCringeVoiceLines
         return true;
     }
 
-    private static readonly MethodInfo _scenarioLibrary_setRandom = AccessTools.Method(typeof(ScenarioLibrary), nameof(ScenarioLibrary.SetRandom),
+    private static readonly MethodInfo _scenarioLibrarySetRandom = AccessTools.Method(typeof(ScenarioLibrary), nameof(ScenarioLibrary.SetRandom),
         new[] {typeof(ScenarioLibrary.eCharacters), typeof(ScenarioLibrary.ePresenterAction), typeof(ScenarioLibrary.eCandidateAction)});
 
-    private static readonly FieldInfo _scenarioBehaviour_mCandidateAction = AccessTools.Field(typeof(ScenarioBehavior), nameof(ScenarioBehavior.mCandidateAction));
+    private static readonly FieldInfo _scenarioBehaviourMCandidateAction = AccessTools.Field(typeof(ScenarioBehavior), nameof(ScenarioBehavior.mCandidateAction));
 
     [HarmonyPatch(typeof(ScenarioBehavior), nameof(ScenarioBehavior.OnBehaviourPlay))]
     [HarmonyTranspiler]
@@ -30,7 +31,7 @@ internal static class DisableCringeVoiceLines
     {
         CodeMatcher matcher = new(instructions);
         matcher.Start();
-        matcher.SearchForward(c => c.Calls(_scenarioLibrary_setRandom));
+        matcher.SearchForward(c => c.Calls(_scenarioLibrarySetRandom));
         matcher.Advance(-6);
         int insertPos = matcher.Pos;
 
@@ -43,18 +44,18 @@ internal static class DisableCringeVoiceLines
         matcher.InsertAndAdvance
         (
             new CodeInstruction(OpCodes.Ldarg_0),
-            new CodeInstruction(OpCodes.Ldfld, _scenarioBehaviour_mCandidateAction),
-            new CodeInstruction(OpCodes.Call, new Func<ScenarioLibrary.eCandidateAction, bool>(ShouldPlay).Method),
+            new CodeInstruction(OpCodes.Ldfld, _scenarioBehaviourMCandidateAction),
+            new CodeInstruction(OpCodes.Call, new Func<ScenarioLibrary.eCandidateAction, bool>(shouldPlay).Method),
             new CodeInstruction(OpCodes.Brfalse, label!.Value)
         );
 
         return matcher.InstructionEnumeration();
 
-        static bool ShouldPlay(ScenarioLibrary.eCandidateAction _candidateAction)
+        static bool shouldPlay(ScenarioLibrary.eCandidateAction candidateAction)
         {
-            if (_candidateAction is ScenarioLibrary.eCandidateAction.dernier_mot) return false;
+            if (candidateAction is ScenarioLibrary.eCandidateAction.dernier_mot) return false;
 
-            LOGGER.LogWarning("Playing candidate scenario: " + _candidateAction);
+            LOGGER.LogWarning("Playing candidate scenario: " + candidateAction);
             return true;
         }
     }

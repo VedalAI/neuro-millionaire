@@ -1,4 +1,6 @@
-﻿namespace MillionaireMOD.Communication;
+﻿using MillionaireMOD.Communication.Outgoing;
+
+namespace MillionaireMOD.Communication.Incoming;
 
 public static class ReceivePhoneAFriendResults
 {

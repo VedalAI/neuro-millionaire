@@ -8,8 +8,8 @@ namespace MillionaireMOD;
 [HarmonyPatch]
 public static class PreventAudienceResults
 {
-    private static readonly MethodInfo _uiController_StartPublicCilinder = AccessTools.Method(typeof(UIController), nameof(UIController.StartPublicCilinder));
-    private static readonly MethodInfo _uiController_StartStopPublicParticleAnim = AccessTools.Method(typeof(UIController), nameof(UIController.StartStopPublicParticleAnim));
+    private static readonly MethodInfo _uiControllerStartPublicCilinder = AccessTools.Method(typeof(UIController), nameof(UIController.StartPublicCilinder));
+    private static readonly MethodInfo _uiControllerStartStopPublicParticleAnim = AccessTools.Method(typeof(UIController), nameof(UIController.StartStopPublicParticleAnim));
 
     [HarmonyPatch(typeof(CtrlUIBehavior), nameof(CtrlUIBehavior.OnBehaviourPlay))]
     [HarmonyTranspiler]
@@ -18,16 +18,16 @@ public static class PreventAudienceResults
         CodeMatcher matcher = new(instructions);
         matcher.Start();
 
-        matcher.SearchForward(c => c.Calls(_uiController_StartStopPublicParticleAnim));
+        matcher.SearchForward(c => c.Calls(_uiControllerStartStopPublicParticleAnim));
         matcher.Advance(1);
-        matcher.SearchForward(c => c.Calls(_uiController_StartStopPublicParticleAnim));
+        matcher.SearchForward(c => c.Calls(_uiControllerStartStopPublicParticleAnim));
         matcher.Set(OpCodes.Nop, null);
         matcher.Advance(-1);
         matcher.Set(OpCodes.Nop, null);
         matcher.Advance(-1);
         matcher.Set(OpCodes.Nop, null);
 
-        matcher.SearchForward(c => c.Calls(_uiController_StartPublicCilinder));
+        matcher.SearchForward(c => c.Calls(_uiControllerStartPublicCilinder));
         matcher.Set(OpCodes.Nop, null);
         matcher.Advance(-1);
         matcher.Set(OpCodes.Nop, null);
