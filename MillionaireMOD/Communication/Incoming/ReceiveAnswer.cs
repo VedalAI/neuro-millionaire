@@ -26,7 +26,7 @@ public static class ReceiveAnswer
 
         IEnumerator coroutine()
         {
-            while (UIController.sInstance.mAnswerShowDone != true) yield return null;
+            while (SoloGameplay.sInstance.mGameState != eGameState.ANSWER) yield return null;
 
             answer.mUIController.mCurrentAnswerHighlighted = num;
             answer.lastHighlightAnswer = num;
