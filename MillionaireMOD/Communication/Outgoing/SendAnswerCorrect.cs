@@ -14,6 +14,6 @@ internal static class SendAnswerCorrect
         {
             // {"money_earned", __instance.mUIController.mBaseValues.GetPyramidValue(__instance.mUIController.mPyramidPalierIndex)}
         };
-        WebSocketConnection.Send(new WsMessage("millionaire/answer/correct", data));
+        WebSocketConnection.Send(new WsMessage("answer/correct", data));
     }
 }

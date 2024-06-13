@@ -17,6 +17,6 @@ public static class SendPhoneAFriendConfirm
 
         IsThisTheTimeForMeToDoThis = true;
         PreventSkippingCustomLifelines.CanSkip = false;
-        WebSocketConnection.Send(new WsMessage("millionaire/lifeline/phone_a_friend/confirm_start"));
+        WebSocketConnection.Send(new WsMessage("lifeline/phone_a_friend/confirm_start"));
     }
 }

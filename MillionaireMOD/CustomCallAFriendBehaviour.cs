@@ -30,7 +30,7 @@ public static class CustomCallAFriendBehaviour
 
             yield return new WaitUntil(() => UIController.sInstance.mCurrentRoutine == null || CallOver);
 
-            if (!CallOver) WebSocketConnection.Send(new WsMessage("millionaire/lifeline/phone_a_friend/request_end"));
+            if (!CallOver) WebSocketConnection.Send(new WsMessage("lifeline/phone_a_friend/request_end"));
             UIController.sInstance.SetLifelineAnswer(string.IsNullOrWhiteSpace(CallAnswer) ? "?" : CallAnswer);
             CallOver = false;
             CallAnswer = null;

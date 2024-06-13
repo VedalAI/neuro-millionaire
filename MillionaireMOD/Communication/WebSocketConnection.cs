@@ -104,22 +104,22 @@ public class WebSocketConnection : MonoBehaviour
             WsMessage wsMessage = JsonConvert.DeserializeObject<WsMessage>(msg.Data);
             switch (wsMessage.Command)
             {
-                case "millionaire/answer":
+                case "answer":
                     OnAnswerReceived?.Invoke(wsMessage.Data["answer"].ToString());
                     break;
 
-                case "millionaire/lifeline":
+                case "lifeline":
                     OnLifelineReceived?.Invoke(wsMessage.Data["lifeline"].ToString());
                     break;
 
-                case "millionaire/lifeline/ask_the_audience/results":
+                case "lifeline/ask_the_audience/results":
                     OnAskTheAudienceResultsReceived?.Invoke(
                         Convert.ToInt32(wsMessage.Data["percentageA"]), Convert.ToInt32(wsMessage.Data["percentageB"]),
                         Convert.ToInt32(wsMessage.Data["percentageC"]), Convert.ToInt32(wsMessage.Data["percentageD"])
                     );
                     break;
 
-                case "millionaire/lifeline/phone_a_friend/results":
+                case "lifeline/phone_a_friend/results":
                     OnPhoneAFriendResultsReceived?.Invoke(wsMessage.Data["result"].ToString());
                     break;
             }

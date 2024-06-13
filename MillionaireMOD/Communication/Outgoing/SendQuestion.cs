@@ -25,7 +25,7 @@ internal static class SendQuestion
             {"answerD", __instance.mAnswers[3].mAnswer.text},
         };
 
-        WebSocketConnection.Send(new WsMessage("millionaire/question", data));
+        WebSocketConnection.Send(new WsMessage("question", data));
     }
 
     [HarmonyPatch(typeof(UIController), nameof(UIController.HideFiftyFifty))]
@@ -50,6 +50,6 @@ internal static class SendQuestion
             }] = __instance.mAnswers[i].mAnswer.text;
         }
 
-        WebSocketConnection.Send(new WsMessage("millionaire/question", data));
+        WebSocketConnection.Send(new WsMessage("question", data));
     }
 }

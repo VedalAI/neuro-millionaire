@@ -14,6 +14,6 @@ internal static class SendGameLose
         {
             {"won", false}
         };
-        WebSocketConnection.Send(new WsMessage("millionaire/finish", data));
+        WebSocketConnection.Send(new WsMessage("finish", data));
     }
 }

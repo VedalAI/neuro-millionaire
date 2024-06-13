@@ -14,6 +14,6 @@ public static class SendAskTheAudienceConfirm
         if (MusicTrackName != "AK_Event_Mus_Bonus_Public_Keyboard") return;
 
         PreventSkippingCustomLifelines.CanSkip = false;
-        WebSocketConnection.Send(new WsMessage("millionaire/lifeline/ask_the_audience/confirm_start"));
+        WebSocketConnection.Send(new WsMessage("lifeline/ask_the_audience/confirm_start"));
     }
 }
