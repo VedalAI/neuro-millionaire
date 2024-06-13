@@ -1,6 +1,6 @@
 ﻿using HarmonyLib;
 
-namespace MillionaireMOD;
+namespace MillionaireMOD.Tweaks;
 
 [HarmonyPatch]
 internal static class DisableAudienceAmbientSounds

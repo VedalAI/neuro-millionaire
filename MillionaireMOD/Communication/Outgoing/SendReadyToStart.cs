@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
+using UnityEngine;
 
 namespace MillionaireMOD.Communication.Outgoing;
 
@@ -22,7 +23,7 @@ internal static class SendReadyToStart
     private static void Prefix(object __instance)
     {
         int state = (int)_mainMenuStepRoutineState.GetValue(__instance);
-        if (state == 1)
+        if (state == 1 && !Input.GetKey(KeyCode.LeftShift))
         {
             Dictionary<string, object> data = new()
             {

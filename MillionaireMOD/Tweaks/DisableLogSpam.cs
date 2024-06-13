@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using UnityEngine;
 
-namespace MillionaireMOD;
+namespace MillionaireMOD.Tweaks;
 
 [HarmonyPatch]
 internal static class DisableLogSpam

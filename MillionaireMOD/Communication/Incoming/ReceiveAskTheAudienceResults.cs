@@ -1,4 +1,6 @@
-﻿namespace MillionaireMOD.Communication.Incoming;
+﻿using MillionaireMOD.Tweaks;
+
+namespace MillionaireMOD.Communication.Incoming;
 
 public static class ReceiveAskTheAudienceResults
 {
@@ -7,7 +9,6 @@ public static class ReceiveAskTheAudienceResults
         UIController.sInstance.mPublicValues = [a, b, c, d];
         UIController.sInstance.StartStopPublicParticleAnim(false);
         UIController.sInstance.StartPublicCilinder();
-        LoopAudienceCamera.CanContinue = true;
         PreventSkippingCustomLifelines.CanSkip = true;
     }
 }

@@ -1,4 +1,5 @@
-﻿using MillionaireMOD.Communication.Outgoing;
+﻿using MillionaireMOD.Behaviour;
+using MillionaireMOD.Communication.Outgoing;
 
 namespace MillionaireMOD.Communication.Incoming;
 

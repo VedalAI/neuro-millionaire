@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using HarmonyLib;
 
-namespace MillionaireMOD;
+namespace MillionaireMOD.Tweaks;
 
 [HarmonyPatch]
 public static class SkipPressAnyButton

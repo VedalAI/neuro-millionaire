@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 
-namespace MillionaireMOD;
+namespace MillionaireMOD.Behaviour;
 
 [HarmonyPatch]
 public static class PreventAudienceResults

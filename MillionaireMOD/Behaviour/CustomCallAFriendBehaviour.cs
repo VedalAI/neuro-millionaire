@@ -2,9 +2,10 @@
 using HarmonyLib;
 using MillionaireMOD.Communication;
 using MillionaireMOD.Communication.Outgoing;
+using MillionaireMOD.Tweaks;
 using UnityEngine;
 
-namespace MillionaireMOD;
+namespace MillionaireMOD.Behaviour;
 
 [HarmonyPatch]
 public static class CustomCallAFriendBehaviour

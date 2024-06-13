@@ -29,6 +29,16 @@ function onMessageReceived(data : Message) {
                 language: "EN_US",
             }
         })
+    } else if (data.Command == "ready") {
+        send({
+            Command: "start",
+            Data: {
+                difficulty: "normal",
+                categories: [
+                    "Science"
+                ]
+            }
+        });
     }
 }
 

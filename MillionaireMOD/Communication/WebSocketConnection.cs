@@ -6,6 +6,7 @@ using System.IO;
 using System.Reflection.Emit;
 using HarmonyLib;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 using WebSocketSharp;
 
@@ -21,6 +22,7 @@ public class WebSocketConnection : MonoBehaviour
     private static string _clientSecret = "";
 
     public static event Action<string> OnLanguageReceived;
+    public static event Action<string, string[]> OnStartReceived;
     public static event Action<string> OnAnswerReceived;
     public static event Action<string> OnLifelineReceived;
     public static event Action<int, int, int, int> OnAskTheAudienceResultsReceived;
@@ -107,6 +109,11 @@ public class WebSocketConnection : MonoBehaviour
             {
                 case "language":
                     OnLanguageReceived?.Invoke(wsMessage.Data["language"].ToString());
+                    break;
+
+                case "start":
+                    JArray categories = (JArray) wsMessage.Data["categories"];
+                    OnStartReceived?.Invoke(wsMessage.Data["difficulty"].ToString(), categories.ToObject<string[]>());
                     break;
 
                 case "answer":
