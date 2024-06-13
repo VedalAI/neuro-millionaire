@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace MillionaireMOD.Communication.Incoming;
@@ -19,10 +20,19 @@ public static class ReceiveAnswer
         AnswerStep answer = GameObject.FindObjectOfType<AnswerStep>();
         if (!answer) return;
 
-        answer.mUIController.mCurrentAnswerHighlighted = num;
-        answer.lastHighlightAnswer = num;
-        answer.mPreselectedAnswer = true;
-        answer.mUIController.PlayerAnswer();
-        answer.mAnswerSelected = true;
+        answer.StartCoroutine(coroutine());
+
+        return;
+
+        IEnumerator coroutine()
+        {
+            while (UIController.sInstance.mAnswerShowDone != true) yield return null;
+
+            answer.mUIController.mCurrentAnswerHighlighted = num;
+            answer.lastHighlightAnswer = num;
+            answer.mPreselectedAnswer = true;
+            answer.mUIController.PlayerAnswer();
+            answer.mAnswerSelected = true;
+        }
     }
 }
