@@ -16,7 +16,7 @@ public static class SkipPressAnyButton
         IEnumerator coroutine()
         {
             Shell.sInstance.ResetSimulateClick("ANY");
-            AudioDirector.PlayUISound("AK_Event_UI_Generic_Select", true);
+            AudioDirector.PlayUISound("AK_Event_UI_Generic_Select");
             __instance.FinishStep();
             yield break;
         }
