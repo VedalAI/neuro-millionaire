@@ -8,10 +8,19 @@ namespace MillionaireMOD.Communication.Incoming;
 [HarmonyPatch]
 public static class ReceiveStart
 {
+    public static bool LastDifficultyWasNormal { get; private set; }
+
     public static void StartGame(string difficulty, string[] categories)
     {
         MenuManager.sInstance.mMainMenu.mFirstHighlighted = 0;
         StepRoutinePatch.EndStep = true;
+
+        LastDifficultyWasNormal = difficulty switch
+        {
+            "easy" => false,
+            "normal" => true,
+            _ => throw new ArgumentOutOfRangeException(nameof(difficulty), difficulty, null)
+        };
     }
 
     [HarmonyPatch]
