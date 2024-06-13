@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
@@ -14,7 +15,7 @@ internal static class SendReadyToStart
 
     [HarmonyTargetMethod]
     [UsedImplicitly]
-    private static MethodBase TargetMethod() => AccessTools.Method("MainMenu.<StepRoutine>d__15:MoveNext");
+    private static MethodBase TargetMethod() => AccessTools.Method(_mainMenuStepRoutine, "MoveNext");
 
     [HarmonyPrefix]
     [UsedImplicitly]
@@ -26,7 +27,7 @@ internal static class SendReadyToStart
             Dictionary<string, object> data = new()
             {
                 { "availableDifficulties", new[] { "easy", "normal" } },
-                { "availableCategories", new[] { "" } },
+                { "availableCategories", MenuManager.sInstance.mMenuGameplay.mPackSelection.mAllPacks.Select(p => p.mText.text) },
             };
 
             WebSocketConnection.Send(new WsMessage("ready", data));

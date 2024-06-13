@@ -21,7 +21,7 @@ internal static class DisableCringeVoiceLines
     }
 
     private static readonly MethodInfo _scenarioLibrarySetRandom = AccessTools.Method(typeof(ScenarioLibrary), nameof(ScenarioLibrary.SetRandom),
-        new[] {typeof(ScenarioLibrary.eCharacters), typeof(ScenarioLibrary.ePresenterAction), typeof(ScenarioLibrary.eCandidateAction)});
+        [typeof(ScenarioLibrary.eCharacters), typeof(ScenarioLibrary.ePresenterAction), typeof(ScenarioLibrary.eCandidateAction)]);
 
     private static readonly FieldInfo _scenarioBehaviourMCandidateAction = AccessTools.Field(typeof(ScenarioBehavior), nameof(ScenarioBehavior.mCandidateAction));
 
@@ -53,10 +53,12 @@ internal static class DisableCringeVoiceLines
 
         static bool shouldPlay(ScenarioLibrary.eCandidateAction candidateAction)
         {
-            if (candidateAction is ScenarioLibrary.eCandidateAction.dernier_mot) return false;
+            return false;
+
+            /*if (candidateAction is ScenarioLibrary.eCandidateAction.dernier_mot) return false;
 
             LOGGER.LogWarning("Playing candidate scenario: " + candidateAction);
-            return true;
+            return true;*/
         }
     }
 }
