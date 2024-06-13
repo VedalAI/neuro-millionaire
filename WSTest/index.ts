@@ -8,9 +8,8 @@ let connections : WebSocket[] = [];
 wss.on("connection", function connection(ws) {
     ws.once("message", (data) => {
         const obj = JSON.parse(data.toString()) as Message;
-        console.log(obj);
+        console.log("<---", obj);
         if (obj.Command == "client") {
-            console.log("Registered new client");
             connections.push(ws);
             ws.on("message", data => onMessageReceived(JSON.parse(data.toString()) as Message));
             ws.on("close", () => connections = connections.filter(c => c != ws));
@@ -21,10 +20,21 @@ wss.on("connection", function connection(ws) {
 });
 
 function onMessageReceived(data : Message) {
-    console.log(data);
+    console.log("<---", data);
+
+    if (data.Command == "launched") {
+        send({
+            Command: "language",
+            Data: {
+                language: "EN_US",
+            }
+        })
+    }
 }
 
 export function send(msg : Message) {
+    console.log("--->", msg);
+
     const msgStr = JSON.stringify(msg);
     for (const connection of connections) {
         connection.send(msgStr);

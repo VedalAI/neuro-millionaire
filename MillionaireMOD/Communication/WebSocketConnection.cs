@@ -20,6 +20,7 @@ public class WebSocketConnection : MonoBehaviour
     private static string _clientId = "";
     private static string _clientSecret = "";
 
+    public static event Action<string> OnLanguageReceived;
     public static event Action<string> OnAnswerReceived;
     public static event Action<string> OnLifelineReceived;
     public static event Action<int, int, int, int> OnAskTheAudienceResultsReceived;
@@ -69,7 +70,7 @@ public class WebSocketConnection : MonoBehaviour
         }
         catch
         {
-            //ignored
+            // ignored
         }
 
         _socket = new WebSocket(_socketUrl);
@@ -104,6 +105,10 @@ public class WebSocketConnection : MonoBehaviour
             WsMessage wsMessage = JsonConvert.DeserializeObject<WsMessage>(msg.Data);
             switch (wsMessage.Command)
             {
+                case "language":
+                    OnLanguageReceived?.Invoke(wsMessage.Data["language"].ToString());
+                    break;
+
                 case "answer":
                     OnAnswerReceived?.Invoke(wsMessage.Data["answer"].ToString());
                     break;
@@ -156,7 +161,6 @@ public class WebSocketConnection : MonoBehaviour
         }
     }
 }
-
 
 public record struct WsMessage(string Command, Dictionary<string, object> Data = null)
 {

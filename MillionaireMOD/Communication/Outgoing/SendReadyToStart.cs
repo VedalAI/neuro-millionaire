@@ -27,7 +27,7 @@ internal static class SendReadyToStart
             Dictionary<string, object> data = new()
             {
                 { "availableDifficulties", new[] { "easy", "normal" } },
-                { "availableCategories", MenuManager.sInstance.mMenuGameplay.mPackSelection.mAllPacks.Select(p => p.mText.text) },
+                { "availableCategories", MenuManager.sInstance.mMenuGameplay.mPackSelection.mAllPacks.Select(p => p.mDataValue.ToString()) },
             };
 
             WebSocketConnection.Send(new WsMessage("ready", data));

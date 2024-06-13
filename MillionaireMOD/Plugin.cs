@@ -26,6 +26,7 @@ public sealed class Plugin : BaseUnityPlugin
         Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly());
 
         gameObject.AddComponent<WebSocketConnection>();
+        WebSocketConnection.OnLanguageReceived += ReceiveLanguage.SetLanguage;
         WebSocketConnection.OnAnswerReceived += ReceiveAnswer.AnswerQuestion;
         WebSocketConnection.OnLifelineReceived += ReceiveLifeline.UseLifeline;
         WebSocketConnection.OnAskTheAudienceResultsReceived += ReceiveAskTheAudienceResults.UpdateUI;

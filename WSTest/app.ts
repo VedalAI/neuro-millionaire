@@ -8,7 +8,7 @@ app.listen(1337);
 
 app.get("/answer", (req, res) => {
     send({
-        Command: "millionaire/answer",
+        Command: "answer",
         Data: {
             answer: req.body.answer
         }
@@ -18,7 +18,7 @@ app.get("/answer", (req, res) => {
 
 app.get("/lifeline", (req, res) => {
     send({
-        Command: "millionaire/lifeline",
+        Command: "lifeline",
         Data: {
             lifeline: req.body.lifeline
         }
@@ -28,7 +28,7 @@ app.get("/lifeline", (req, res) => {
 
 app.get("/asktheaudience", (req, res) => {
     send({
-        Command: "millionaire/lifeline/ask_the_audience/results",
+        Command: "lifeline/ask_the_audience/results",
         Data: {
             "percentageA": parseInt(req.body.a),
             "percentageB": parseInt(req.body.b),
@@ -41,7 +41,7 @@ app.get("/asktheaudience", (req, res) => {
 
 app.get("/phoneafriend", (req, res) => {
     send({
-        Command: "millionaire/lifeline/phone_a_friend/results",
+        Command: "lifeline/phone_a_friend/results",
         Data: {
             "result": req.body.answer
         }
