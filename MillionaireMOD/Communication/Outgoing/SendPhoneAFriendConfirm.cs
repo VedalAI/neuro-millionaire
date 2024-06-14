@@ -4,7 +4,7 @@ using MillionaireMOD.Tweaks;
 namespace MillionaireMOD.Communication.Outgoing;
 
 [HarmonyPatch]
-public static class SendPhoneAFriendConfirm
+internal static class SendPhoneAFriendConfirm
 {
     public static bool IsThisTheTimeForMeToDoThis;
 

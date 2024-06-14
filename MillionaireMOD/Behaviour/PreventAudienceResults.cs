@@ -6,7 +6,7 @@ using HarmonyLib;
 namespace MillionaireMOD.Behaviour;
 
 [HarmonyPatch]
-public static class PreventAudienceResults
+internal static class PreventAudienceResults
 {
     private static readonly MethodInfo _uiControllerStartPublicCilinder = AccessTools.Method(typeof(UIController), nameof(UIController.StartPublicCilinder));
     private static readonly MethodInfo _uiControllerStartStopPublicParticleAnim = AccessTools.Method(typeof(UIController), nameof(UIController.StartStopPublicParticleAnim));

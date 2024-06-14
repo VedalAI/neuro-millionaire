@@ -8,7 +8,7 @@ using JetBrains.Annotations;
 namespace MillionaireMOD.Communication.Incoming;
 
 [HarmonyPatch]
-public static class ReceiveStart
+internal static class ReceiveStart
 {
     public static bool LastDifficultyWasNormal { get; private set; }
     public static List<eAllPacksInfos> LastCategories { get; private set; } = [];

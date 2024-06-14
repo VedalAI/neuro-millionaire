@@ -8,7 +8,7 @@ using UnityEngine;
 namespace MillionaireMOD.Behaviour;
 
 [HarmonyPatch]
-public static class CustomCallAFriendBehaviour
+internal static class CustomCallAFriendBehaviour
 {
     public static bool CallOver;
     public static string CallAnswer;

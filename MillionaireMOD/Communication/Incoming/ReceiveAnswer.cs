@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace MillionaireMOD.Communication.Incoming;
 
-public static class ReceiveAnswer
+internal static class ReceiveAnswer
 {
     public static void AnswerQuestion(string answerStr)
     {

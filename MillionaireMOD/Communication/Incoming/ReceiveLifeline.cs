@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace MillionaireMOD.Communication.Incoming;
 
-public static class ReceiveLifeline
+internal static class ReceiveLifeline
 {
     public static void UseLifeline(string lifelineStr)
     {

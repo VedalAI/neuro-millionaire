@@ -4,7 +4,7 @@ using MillionaireMOD.Tweaks;
 namespace MillionaireMOD.Communication.Outgoing;
 
 [HarmonyPatch]
-public static class SendAskTheAudienceConfirm
+internal static class SendAskTheAudienceConfirm
 {
     [HarmonyPatch(typeof(MusicDirector), nameof(MusicDirector.PlayMusicTrack), typeof(string), typeof(bool))]
     [HarmonyPatch(typeof(MusicDirector), nameof(MusicDirector.PlayMusicTrack), typeof(string), typeof(float))]

@@ -2,7 +2,7 @@
 
 namespace MillionaireMOD.Communication.Incoming;
 
-public static class ReceiveAskTheAudienceResults
+internal static class ReceiveAskTheAudienceResults
 {
     public static void UpdateUI(int a, int b, int c, int d)
     {

@@ -3,7 +3,7 @@
 namespace MillionaireMOD.Tweaks;
 
 [HarmonyPatch]
-public static class DisableUnwantedUIElements
+internal static class DisableUnwantedUIElements
 {
     [HarmonyPatch(typeof(UIController), nameof(UIController.Awake))]
     [HarmonyPostfix]

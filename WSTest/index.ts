@@ -35,7 +35,7 @@ function onMessageReceived(data : Message) {
             Data: {
                 difficulty: "normal",
                 categories: [
-                    "Science"
+                    "Harry_Potter"
                 ]
             }
         });

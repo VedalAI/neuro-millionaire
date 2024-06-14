@@ -6,7 +6,7 @@ using UnityEngine;
 namespace MillionaireMOD.Behaviour;
 
 [HarmonyPatch]
-public static class PickCategories
+internal static class PickCategories
 {
     [HarmonyPatch(typeof(PackSelection), nameof(PackSelection.PacksRoutine))]
     private static void Prefix(PackSelection __instance, ref IEnumerator __result)
@@ -30,12 +30,22 @@ public static class PickCategories
                     __instance.mSelected = index;
                     __instance.HighlightSelected();
                     yield return new WaitForSeconds(0.1f);
-                    if (packSelected) pack.Activate();
-                    pack.DeActivate();
+                    if (packSelected)
+                    {
+                        pack.Activate();
+                        __instance.mSelected++;
+                    }
+                    else
+                    {
+                        pack.DeActivate();
+                        __instance.mSelected--;
+                    }
                 }
             }
 
-            yield return new WaitForSeconds(1);
+            __instance.Save();
+
+            yield return new WaitForSeconds(0.5f);
 
             AudioDirector.PlayUISound("AK_Event_UI_Generic_Select");
             __instance.mInsideDone = true;

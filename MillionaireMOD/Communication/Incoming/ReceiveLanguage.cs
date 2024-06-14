@@ -9,7 +9,7 @@ using UnityEngine;
 namespace MillionaireMOD.Communication.Incoming;
 
 [HarmonyPatch]
-public static class ReceiveLanguage
+internal static class ReceiveLanguage
 {
     public static void SetLanguage(string languageStr)
     {

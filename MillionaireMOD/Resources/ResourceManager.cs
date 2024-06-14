@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace MillionaireMOD.Resources;
 
-public static class ResourceManager
+internal static class ResourceManager
 {
     private static readonly Assembly _assembly = Assembly.GetExecutingAssembly();
     private static readonly Dictionary<string, object> _cache = new();

@@ -4,7 +4,7 @@ using UnityEngine;
 namespace MillionaireMOD.Tweaks;
 
 [HarmonyPatch]
-public static class PreventSkippingCustomLifelines
+internal static class PreventSkippingCustomLifelines
 {
     public static bool CanSkip
     {

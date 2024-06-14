@@ -3,7 +3,7 @@
 namespace MillionaireMOD.Tweaks;
 
 [HarmonyPatch]
-public static class ChangeAskTheAudienceMusic
+internal static class ChangeAskTheAudienceMusic
 {
     [HarmonyPatch(typeof(MusicDirector), nameof(MusicDirector.PlayMusicTrack), typeof(string), typeof(bool))]
     [HarmonyPatch(typeof(MusicDirector), nameof(MusicDirector.PlayMusicTrack), typeof(string), typeof(float))]

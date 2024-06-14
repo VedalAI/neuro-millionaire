@@ -4,7 +4,7 @@ using HarmonyLib;
 namespace MillionaireMOD.Tweaks;
 
 [HarmonyPatch]
-public static class SkipPressAnyButton
+internal static class SkipPressAnyButton
 {
     [HarmonyPatch(typeof(MenuToStart), nameof(MenuToStart.StepRoutine))]
     [HarmonyPrefix]
