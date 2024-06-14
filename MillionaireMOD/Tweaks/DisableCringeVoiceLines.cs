@@ -61,4 +61,12 @@ internal static class DisableCringeVoiceLines
             return true;*/
         }
     }
+
+    [HarmonyPatch(typeof(AnswerStep), nameof(AnswerStep.StartStep))]
+    [HarmonyPostfix]
+    private static void AnswerLines(AnswerStep __instance)
+    {
+        __instance.mLastWord = true;
+        __instance.mSkipReflexion = true;
+    }
 }
