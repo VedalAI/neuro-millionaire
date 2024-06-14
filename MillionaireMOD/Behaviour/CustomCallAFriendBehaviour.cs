@@ -10,8 +10,8 @@ namespace MillionaireMOD.Behaviour;
 [HarmonyPatch]
 internal static class CustomCallAFriendBehaviour
 {
-    public static bool CallOver;
-    public static string CallAnswer;
+    public static bool CallOver { get; set; }
+    public static string CallAnswer { get; set; }
 
     [HarmonyPatch(typeof(ScenarioLibrary), nameof(ScenarioLibrary.CallScenario))]
     [HarmonyPrefix]

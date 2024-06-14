@@ -6,7 +6,7 @@ namespace MillionaireMOD.Communication.Outgoing;
 [HarmonyPatch]
 internal static class SendPhoneAFriendConfirm
 {
-    public static bool IsThisTheTimeForMeToDoThis;
+    public static bool IsThisTheTimeForMeToDoThis { get; set; }
 
     [HarmonyPatch(typeof(MusicDirector), nameof(MusicDirector.PlayMusicTrack), typeof(string), typeof(bool))]
     [HarmonyPatch(typeof(MusicDirector), nameof(MusicDirector.PlayMusicTrack), typeof(string), typeof(float))]
