@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
@@ -9,6 +11,7 @@ namespace MillionaireMOD.Communication.Incoming;
 public static class ReceiveStart
 {
     public static bool LastDifficultyWasNormal { get; private set; }
+    public static List<eAllPacksInfos> LastCategories { get; private set; } = [];
 
     public static void StartGame(string difficulty, string[] categories)
     {
@@ -21,6 +24,8 @@ public static class ReceiveStart
             "normal" => true,
             _ => throw new ArgumentOutOfRangeException(nameof(difficulty), difficulty, null)
         };
+
+        LastCategories = categories.Select(t => (eAllPacksInfos)Enum.Parse(typeof(eAllPacksInfos), t)).ToList();
     }
 
     [HarmonyPatch]

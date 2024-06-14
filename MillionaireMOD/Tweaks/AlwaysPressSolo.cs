@@ -7,29 +7,22 @@ namespace MillionaireMOD.Tweaks;
 [HarmonyPatch]
 internal static class AlwaysPressSolo
 {
-    private static bool _runOriginal;
-
     [HarmonyPatch(typeof(SimpleChoice), nameof(SimpleChoice.StepRoutine))]
-    private static bool Prefix(SimpleChoice __instance, ref IEnumerator __result)
+    private static void Prefix(SimpleChoice __instance)
     {
-        if (__instance != MenuManager.sInstance.mMenuGameplay.mMode) return true;
-        if (Input.GetKey(KeyCode.LeftShift)) return true;
+        if (__instance != MenuManager.sInstance.mMenuGameplay.mMode) return;
+        if (Input.GetKey(KeyCode.LeftShift)) return;
 
-        if (_runOriginal)
-        {
-            _runOriginal = false;
-            return true;
-        }
-
-        __result = coroutine();
-        return false;
+        __instance.StartCoroutine(coroutine());
+        return;
 
         IEnumerator coroutine()
         {
+            yield return new WaitForSeconds(__instance.mStartingTween.mDuration);
+
             __instance.mCurrentSelected = 0;
             __instance.mInsideDone = true;
-            _runOriginal = true;
-            yield return __instance.StepRoutine();
+            AudioDirector.PlayUISound("AK_Event_UI_Generic_Select");
         }
     }
 }
