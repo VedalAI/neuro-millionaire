@@ -56,7 +56,6 @@ internal static class SendQuestion
         }
         else
         {
-            if (!answer.mUIController.mLifelines[0].mUsed.enabled) lifelines.Add("50_50");
             if (!answer.mUIController.mLifelines[1].mUsed.enabled) lifelines.Add("phone_a_friend");
             if (!answer.mUIController.mLifelines[2].mUsed.enabled) lifelines.Add("ask_the_audience");
             if (!answer.mUIController.mLifelines[3].mUsed.enabled) lifelines.Add("flip_the_question");
