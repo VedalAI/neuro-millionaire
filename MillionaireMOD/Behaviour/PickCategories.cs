@@ -18,8 +18,6 @@ internal static class PickCategories
 
         IEnumerator coroutine()
         {
-            yield return new WaitForSeconds(1);
-
             for (int index = 0; index < __instance.mAllPacks.Length; index++)
             {
                 SimplePackHandler pack = __instance.mAllPacks[index];

@@ -44,7 +44,7 @@ async function onMessageReceived(data : Message) {
         send({
             Command: "character/response",
             Data: {
-                accept: false
+                accept: Math.random() > 0.5
             }
         });
     }
