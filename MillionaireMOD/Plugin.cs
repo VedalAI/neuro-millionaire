@@ -28,6 +28,7 @@ public sealed class Plugin : BaseUnityPlugin
         gameObject.AddComponent<WebSocketConnection>();
         WebSocketConnection.OnLanguageReceived += ReceiveLanguage.SetLanguage;
         WebSocketConnection.OnStartReceived += ReceiveStart.StartGame;
+        WebSocketConnection.OnCharacterResponseReceived += ReceiveCharacterResponse.ReceiveResponse;
         WebSocketConnection.OnAnswerReceived += ReceiveAnswer.AnswerQuestion;
         WebSocketConnection.OnLifelineReceived += ReceiveLifeline.UseLifeline;
         WebSocketConnection.OnAskTheAudienceResultsReceived += ReceiveAskTheAudienceResults.UpdateUI;

@@ -23,6 +23,7 @@ public class WebSocketConnection : MonoBehaviour
 
     public static event Action<string> OnLanguageReceived;
     public static event Action<string, string[]> OnStartReceived;
+    public static event Action<bool> OnCharacterResponseReceived;
     public static event Action<string> OnAnswerReceived;
     public static event Action<string> OnLifelineReceived;
     public static event Action<int, int, int, int> OnAskTheAudienceResultsReceived;
@@ -114,6 +115,10 @@ public class WebSocketConnection : MonoBehaviour
                 case "start":
                     JArray categories = (JArray) wsMessage.Data["categories"];
                     OnStartReceived?.Invoke(wsMessage.Data["difficulty"].ToString(), categories.ToObject<string[]>());
+                    break;
+
+                case "character/response":
+                    OnCharacterResponseReceived?.Invoke((bool) wsMessage.Data["accept"]);
                     break;
 
                 case "answer":

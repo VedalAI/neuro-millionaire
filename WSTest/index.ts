@@ -19,7 +19,7 @@ wss.on("connection", function connection(ws) {
     });
 });
 
-function onMessageReceived(data : Message) {
+async function onMessageReceived(data : Message) {
     console.log("<---", data);
 
     if (data.Command == "launched") {
@@ -37,6 +37,14 @@ function onMessageReceived(data : Message) {
                 categories: [
                     "Harry_Potter"
                 ]
+            }
+        });
+    } else if (data.Command == "character") {
+        await new Promise(resolve => setTimeout(resolve, 500));
+        send({
+            Command: "character/response",
+            Data: {
+                accept: false
             }
         });
     }

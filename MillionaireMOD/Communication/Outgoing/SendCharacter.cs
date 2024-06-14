@@ -6,10 +6,17 @@ namespace MillionaireMOD.Communication.Outgoing;
 [HarmonyPatch]
 internal static class SendCharacter
 {
+    public static string LastSentName { get; set; }
+
     [HarmonyPatch(typeof(CandidateSelect), nameof(CandidateSelect.UpdateInfo))]
     [HarmonyPostfix]
     private static void Postfix(CandidateSelect __instance)
     {
+        string name = __instance.mCandidateInfoContainer.mName.text;
+
+        if (name == LastSentName) return;
+        LastSentName = name;
+
         Dictionary<string, object> data = new()
         {
             { "name", __instance.mCandidateInfoContainer.mName.text },
