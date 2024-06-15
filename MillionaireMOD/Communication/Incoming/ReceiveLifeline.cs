@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace MillionaireMOD.Communication.Incoming;
@@ -21,8 +22,17 @@ internal static class ReceiveLifeline
 
         if (answer.mUIController.mLifelines[num].mUsed.enabled) return;
 
-        answer.mUIController.mCurrentLifelineHighlighted = num;
-        answer.mUIController.LifelineSelected();
-        answer.mLifelineSelected = true;
+        answer.StartCoroutine(coroutine());
+
+        return;
+
+        IEnumerator coroutine()
+        {
+            while (SoloGameplay.sInstance.mGameState != eGameState.ANSWER) yield return null;
+
+            answer.mUIController.mCurrentLifelineHighlighted = num;
+            answer.mUIController.LifelineSelected();
+            answer.mLifelineSelected = true;
+        }
     }
 }
