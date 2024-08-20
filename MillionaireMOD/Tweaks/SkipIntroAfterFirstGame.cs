@@ -7,7 +7,7 @@ namespace MillionaireMOD.Tweaks;
 [HarmonyPatch]
 internal static class SkipIntroAfterFirstGame
 {
-    private static int _availableNonSkips = 2;
+    private static int _availableNonSkips;//= 2;
     private static bool _press;
 
     [HarmonyPatch(typeof(IntroStep), nameof(IntroStep.StartStep))]
