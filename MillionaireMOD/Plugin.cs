@@ -37,3 +37,23 @@ public sealed class Plugin : BaseUnityPlugin
         LONGER_AUDIENCE_CLIP = ResourceManager.GetAssetBundle("assets").LoadAsset<AudioClip>("longer audience sound");
     }
 }
+
+/*
+[HarmonyPatch(typeof(UIController), nameof(UIController.Update))]
+public static class QuestionDump
+{
+    [HarmonyPostfix]
+    public static void Postfix(UIController __instance)
+    {
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            for (int i = 0; i <= 1; i++)
+            {
+                AllQuestion pack = __instance.mQuestionsLibrary.mAllQuestion[i];
+
+                File.WriteAllText($@"C:\Users\alexe\Desktop\Questions_{i}.txt", JsonConvert.SerializeObject(pack, Formatting.Indented));
+            }
+        }
+    }
+}
+*/

@@ -34,9 +34,7 @@ async function onMessageReceived(data : Message) {
             Command: "start",
             Data: {
                 difficulty: "normal",
-                categories: [
-                    "Harry_Potter"
-                ]
+                categories: data.Data.availableCategories
             }
         });
     } else if (data.Command == "character") {
